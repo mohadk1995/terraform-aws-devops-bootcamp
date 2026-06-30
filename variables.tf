@@ -12,3 +12,8 @@ variable "instance_name" {
   description = "EC2 Name"
   type        = string
 }
+
+variable "security_group_name" {
+  description = "Security Group Name"
+  type        = string
+}
