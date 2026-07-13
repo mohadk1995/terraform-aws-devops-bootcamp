@@ -59,11 +59,12 @@ resource "aws_security_group" "web_sg" {
 # 3. MAIN RESOURCE
 # ==========================================
 resource "aws_instance" "web_server" {
-  ami                    = data.aws_ami.amazon_linux_2.id
-  instance_type          = var.instance_type
-  vpc_security_group_ids = [aws_security_group.web_sg.id]
-  key_name               = aws_key_pair.generated_key.key_name # Fixed: Added Key Pair access (Issue 4)
-
+  ami                         = data.aws_ami.amazon_linux_2.id
+  instance_type               = var.instance_type
+  vpc_security_group_ids      = [aws_security_group.web_sg.id]
+  key_name                    = aws_key_pair.generated_key.key_name # Fixed: Added Key Pair access (Issue 4)
+  user_data                   = file("${path.module}/scripts/install_nginx.sh")
+  user_data_replace_on_change = true
   tags = {
     Name = var.instance_name
   }
