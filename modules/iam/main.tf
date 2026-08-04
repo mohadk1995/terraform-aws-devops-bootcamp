@@ -84,7 +84,7 @@ resource "aws_iam_role_policy_attachment" "s3_readonly" {
 
   role = aws_iam_role.ec2_role.name
 
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+  policy_arn = aws_iam_policy.s3_read_policy.arn
 
 }
 
@@ -161,3 +161,49 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 #
 # EC2 → Instance Profile → IAM Role
 #############################################################
+
+#############################################################
+# IAM Policy
+#
+# Allows EC2 to read comparison files
+#############################################################
+
+resource "aws_iam_policy" "s3_read_policy" {
+
+  name = "terraform-s3-read-policy"
+
+  description = "Read access to comparison bucket"
+
+  policy = jsonencode({
+
+    Version = "2012-10-17"
+
+    Statement = [
+
+      {
+
+        Effect = "Allow"
+
+        Action = [
+
+          "s3:GetObject",
+
+          "s3:ListBucket"
+
+        ]
+
+        Resource = [
+
+          var.s3_bucket_arn,
+
+          "${var.s3_bucket_arn}/*"
+
+        ]
+
+      }
+
+    ]
+
+  })
+
+}

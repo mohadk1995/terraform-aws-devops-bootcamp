@@ -30,3 +30,15 @@ variable "instance_profile_name" {
   type = string
 
 }
+
+#############################################################
+# S3 Bucket ARN
+#############################################################
+
+variable "s3_bucket_arn" {
+
+  description = "S3 Bucket ARN"
+
+  type = string
+
+}

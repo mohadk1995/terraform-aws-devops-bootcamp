@@ -1,3 +1,8 @@
+#############################################################
+# AWS Caller Identity
+#############################################################
+
+data "aws_caller_identity" "current" {}
 # ==========================================
 # 1. DATA SOURCES
 # ==========================================
@@ -143,6 +148,8 @@ module "iam" {
   ###########################################################
 
   instance_profile_name = "devops-bootcamp-instance-profile"
+  s3_bucket_arn         = module.s3.bucket_arn
+
 
 }
 
@@ -291,6 +298,20 @@ module "autoscaling_group" {
   ##############################################
   # Tags
   ##############################################
+
+  environment = "Development"
+
+}
+
+#############################################################
+# S3 Bucket
+#############################################################
+
+module "s3" {
+
+  source = "./modules/s3"
+
+  bucket_name = local.s3_bucket_name
 
   environment = "Development"
 

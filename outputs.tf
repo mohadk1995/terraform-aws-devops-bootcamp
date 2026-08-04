@@ -96,3 +96,23 @@ output "asg_arn" {
   value = module.autoscaling_group.asg_arn
 
 }
+
+#############################################################
+# S3 Bucket
+#############################################################
+
+output "s3_bucket_name" {
+
+  description = "S3 Bucket Name"
+
+  value = module.s3.bucket_name
+
+}
+
+output "s3_bucket_arn" {
+
+  description = "S3 Bucket ARN"
+
+  value = module.s3.bucket_arn
+
+}
