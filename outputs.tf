@@ -96,3 +96,35 @@ output "asg_arn" {
   value = module.autoscaling_group.asg_arn
 
 }
+
+#############################################################
+# ALB
+#############################################################
+
+output "alb_dns_name" {
+
+  description = "Application Load Balancer DNS"
+
+  value = module.alb.alb_dns_name
+
+}
+
+output "alb_arn" {
+
+  description = "Application Load Balancer ARN"
+
+  value = module.alb.alb_arn
+
+}
+
+#############################################################
+# Target Group
+#############################################################
+
+output "target_group_arn" {
+
+  description = "Target Group ARN"
+
+  value = module.target_group.target_group_arn
+
+}

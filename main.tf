@@ -39,7 +39,7 @@ module "ec2" {
 
   ami_id            = data.aws_ami.amazon_linux_2023.id
   instance_type     = var.instance_type
-  subnet_id         = module.network.public_subnet_id
+  subnet_id         = module.network.public_subnet_1_id
   security_group_id = module.security_group.security_group_id
   key_name          = module.ssh.key_name
 
@@ -47,7 +47,7 @@ module "ec2" {
 
 
 
-  instance_name = "devops-bootcamp-server"
+  instance_name = local.instance_name
   #############################################################
   # Connect IAM Module to EC2 Module
   #
@@ -69,7 +69,7 @@ module "launch_template" {
   # Launch Template
   ##############################################
 
-  launch_template_name = "terraform-launch-template"
+  launch_template_name = local.launch_template_name
 
   ##############################################
   # EC2 Configuration
@@ -100,7 +100,7 @@ module "launch_template" {
   # User Data
   ##############################################
 
-  user_data = module.ec2.user_data_base64
+  user_data = filebase64("${path.root}/scripts/install_nginx.sh")
 
   ##############################################
   # Tags
@@ -136,13 +136,13 @@ module "iam" {
   # IAM Role Name
   ###########################################################
 
-  role_name = "devops-bootcamp-ec2-role"
+  role_name = local.iam_role_name
 
   ###########################################################
   # IAM Instance Profile Name
   ###########################################################
 
-  instance_profile_name = "devops-bootcamp-instance-profile"
+  instance_profile_name = local.instance_profile_name
 
 }
 
@@ -179,7 +179,7 @@ module "cpu_alarm" {
   # Alarm Details
   ###########################################
 
-  alarm_name        = "HighCPUUtilization"
+  alarm_name        = local.cpu_alarm_name
   alarm_description = "Triggers when EC2 CPU utilization exceeds 80%"
 
   ###########################################
@@ -229,7 +229,7 @@ module "cloudwatch_dashboard" {
   # Dashboard Configuration
   ###########################################
 
-  dashboard_name = "Terraform-Bootcamp-Dashboard"
+  dashboard_name = local.dashboard_name
 
   ###########################################
   # EC2 Instance
@@ -263,7 +263,7 @@ module "autoscaling_group" {
   # Auto Scaling Group
   ##############################################
 
-  asg_name = "terraform-asg"
+  asg_name = local.autoscaling_group
 
   ##############################################
   # Launch Template
@@ -276,22 +276,171 @@ module "autoscaling_group" {
   # Networking
   ##############################################
 
-  subnet_ids = [
-    module.network.public_subnet_id
+  subnet_ids = module.network.public_subnet_ids
+  target_group_arns = [
+    module.alb.target_group_arn
   ]
 
   ##############################################
   # Capacity
   ##############################################
 
-  desired_capacity = 1
-  min_size         = 1
-  max_size         = 2
+  desired_capacity = var.desired_capacity
+  min_size         = var.min_size
+  max_size         = var.max_size
 
   ##############################################
   # Tags
   ##############################################
 
-  environment = "Development"
+  environment = var.environment
 
 }
+
+#############################################################
+# Application Load Balancer
+#############################################################
+
+module "alb" {
+
+  source = "./modules/alb"
+
+  ###########################################################
+  # Name
+  ###########################################################
+
+  alb_name          = local.alb_name
+  target_group_name = local.target_group_name
+  vpc_id            = module.network.vpc_id
+
+
+  ###########################################################
+  # Networking
+  ###########################################################
+
+  subnet_ids = module.network.public_subnet_ids
+
+  security_group_ids = [
+    module.security_group.security_group_id
+  ]
+
+  ###########################################################
+  # Environment
+  ###########################################################
+
+  environment = var.environment
+
+}
+
+#############################################################
+# Target Group
+#############################################################
+
+module "target_group" {
+
+  source = "./modules/target-group"
+
+  ###########################################################
+  # Name
+  ###########################################################
+
+  target_group_name = local.target_group_name
+
+  ###########################################################
+  # Networking
+  ###########################################################
+
+  vpc_id = module.network.vpc_id
+
+  ###########################################################
+  # Environment
+  ###########################################################
+
+  environment = var.environment
+
+}
+
+#############################################################
+# Auto Scaling - Scale Out Policy
+#############################################################
+
+module "autoscaling_policy" {
+
+  source = "./modules/autoscaling-policy"
+
+  asg_name = local.autoscaling_group
+
+}
+
+#############################################################
+# Auto Scaling - Scale Out Alarm
+#############################################################
+
+module "scale_out_alarm" {
+
+  source = "./modules/cloudwatch-alarm"
+
+  alarm_name = "${local.autoscaling_group}-scale-out"
+
+  alarm_description = "Triggers scale-out when average CPU utilization is greater than or equal to 70%"
+
+  namespace   = "AWS/EC2"
+  metric_name = "CPUUtilization"
+
+  statistic = "Average"
+  period    = 300
+
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+
+  threshold = 70
+
+  evaluation_periods = 2
+
+  dimensions = {
+    AutoScalingGroupName = local.autoscaling_group
+  }
+
+  treat_missing_data = "missing"
+
+  alarm_actions = [
+    module.autoscaling_policy.scale_out_policy_arn
+  ]
+
+}
+
+#############################################################
+# Auto Scaling - Scale In Alarm
+#############################################################
+
+module "scale_in_alarm" {
+
+  source = "./modules/cloudwatch-alarm"
+
+  alarm_name = "${local.autoscaling_group}-scale-in"
+
+  alarm_description = "Triggers scale-in when average CPU utilization is less than or equal to 30%"
+
+  namespace   = "AWS/EC2"
+  metric_name = "CPUUtilization"
+
+  statistic = "Average"
+  period    = 300
+
+  comparison_operator = "LessThanOrEqualToThreshold"
+
+  threshold = 30
+
+  evaluation_periods = 2
+
+  dimensions = {
+    AutoScalingGroupName = local.autoscaling_group
+  }
+
+  treat_missing_data = "missing"
+
+  alarm_actions = [
+    module.autoscaling_policy.scale_in_policy_arn
+  ]
+
+}
+

@@ -77,3 +77,13 @@ variable "treat_missing_data" {
   type        = string
   default     = "missing"
 }
+
+#############################################
+# Alarm Actions
+#############################################
+
+variable "alarm_actions" {
+  description = "Actions to execute when the alarm enters the ALARM state"
+  type        = list(string)
+  default     = []
+}

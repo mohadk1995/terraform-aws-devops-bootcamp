@@ -39,3 +39,33 @@ variable "private_key_filename" {
   description = "Private key filename"
   type        = string
 }
+
+variable "environment" {
+  description = "Environment Name"
+  type        = string
+}
+
+variable "desired_capacity" {
+  description = "Desired Capacity"
+  type        = number
+}
+
+variable "min_size" {
+  description = "Minimum Capacity"
+  type        = number
+}
+
+variable "max_size" {
+  description = "Maximum Capacity"
+  type        = number
+}
+
+variable "public_subnet_1_cidr" {
+  description = "CIDR Block for Public Subnet 1"
+  type        = string
+}
+
+variable "public_subnet_2_cidr" {
+  description = "CIDR Block for Public Subnet 2"
+  type        = string
+}

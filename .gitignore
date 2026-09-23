@@ -13,4 +13,4 @@ terraform-generated-key.pem
 
 # Environment files
 *.tfvars
-.terraform.lock.hcl
+#.terraform.lock.hcl

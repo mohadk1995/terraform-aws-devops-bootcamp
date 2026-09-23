@@ -1,20 +1,18 @@
-variable "vpc_cidr" {
-  description = "CIDR block for the VPC"
+#############################################################
+# Target Group Name
+#############################################################
+
+variable "target_group_name" {
+  description = "Target Group Name"
   type        = string
 }
 
-
 #############################################################
-# Public Subnet CIDRs
+# VPC
 #############################################################
 
-variable "public_subnet_1_cidr" {
-  description = "CIDR Block for Public Subnet 1"
-  type        = string
-}
-
-variable "public_subnet_2_cidr" {
-  description = "CIDR Block for Public Subnet 2"
+variable "vpc_id" {
+  description = "VPC ID"
   type        = string
 }
 

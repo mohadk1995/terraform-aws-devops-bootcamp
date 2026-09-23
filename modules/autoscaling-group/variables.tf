@@ -57,3 +57,8 @@ variable "environment" {
   description = "Environment"
   type        = string
 }
+
+variable "target_group_arns" {
+  description = "Target Group ARNs"
+  type        = list(string)
+}

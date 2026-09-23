@@ -19,6 +19,7 @@ resource "aws_autoscaling_group" "this" {
   ###########################################
 
   vpc_zone_identifier = var.subnet_ids
+  target_group_arns   = var.target_group_arns
 
   ###########################################
   # Launch Template

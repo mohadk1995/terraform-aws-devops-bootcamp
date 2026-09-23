@@ -1,7 +1,25 @@
 module "network" {
+
   source = "./modules/network"
 
-  vpc_cidr           = var.vpc_cidr
-  public_subnet_cidr = var.public_subnet_cidr
-  availability_zone  = var.availability_zone
+  #############################################################
+  # VPC
+  #############################################################
+
+  vpc_cidr = var.vpc_cidr
+
+  #############################################################
+  # Public Subnets
+  #############################################################
+
+  public_subnet_1_cidr = var.public_subnet_1_cidr
+
+  public_subnet_2_cidr = var.public_subnet_2_cidr
+
+  #############################################################
+  # Environment
+  #############################################################
+
+  environment = var.environment
+
 }

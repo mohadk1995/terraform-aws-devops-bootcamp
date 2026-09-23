@@ -11,22 +11,44 @@ resource "aws_vpc" "main" {
   enable_dns_support   = true
 
   tags = {
-    Name        = "devops-vpc"
-    Environment = "dev"
+    Name        = "${lower(var.environment)}-vpc"
+    Environment = var.environment
     Project     = "Terraform Bootcamp"
     ManagedBy   = "Terraform"
-    Owner       = "Mohammed"
   }
 }
-resource "aws_subnet" "public" {
+
+#############################################################
+# Public Subnet 1
+#############################################################
+
+resource "aws_subnet" "public_1" {
 
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = var.public_subnet_cidr
-  availability_zone       = var.availability_zone
+  cidr_block              = var.public_subnet_1_cidr
+  availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "public-subnet"
+    Name        = "${lower(var.environment)}-public-subnet-1"
+    Environment = var.environment
+  }
+}
+
+#############################################################
+# Public Subnet 2
+#############################################################
+
+resource "aws_subnet" "public_2" {
+
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.public_subnet_2_cidr
+  availability_zone       = data.aws_availability_zones.available.names[1]
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name        = "${lower(var.environment)}-public-subnet-2"
+    Environment = var.environment
   }
 }
 
@@ -35,7 +57,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "main-igw"
+    Name = "${lower(var.environment)}-igw"
   }
 }
 resource "aws_route_table" "public_rt" {
@@ -51,14 +73,26 @@ resource "aws_route_table" "public_rt" {
   }
 
   tags = {
-    Name = "public-route-table"
+    Name = "${lower(var.environment)}-public-route-table"
   }
 }
 
-resource "aws_route_table_association" "public_assoc" {
+#############################################################
+# Route Table Association - Public Subnet 1
+#############################################################
 
-  subnet_id = aws_subnet.public.id
+resource "aws_route_table_association" "public_assoc_1" {
 
+  subnet_id      = aws_subnet.public_1.id
   route_table_id = aws_route_table.public_rt.id
+}
 
+#############################################################
+# Route Table Association - Public Subnet 2
+#############################################################
+
+resource "aws_route_table_association" "public_assoc_2" {
+
+  subnet_id      = aws_subnet.public_2.id
+  route_table_id = aws_route_table.public_rt.id
 }
