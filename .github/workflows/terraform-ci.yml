@@ -14,11 +14,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3  
+        uses: hashicorp/setup-terraform@v3
 
       - name: Show Terraform version
         run: terraform version
 
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
-      
+
+      - name: Terraform Init
+        run: terraform init       
+
+      - name: Terraform Validate
+        run: terraform validate
