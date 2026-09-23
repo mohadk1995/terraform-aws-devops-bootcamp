@@ -41,8 +41,8 @@ resource "aws_cloudwatch_metric_alarm" "this" {
   treat_missing_data = var.treat_missing_data
 
   ###########################################
-# Alarm Actions
-###########################################
+  # Alarm Actions
+  ###########################################
 
-alarm_actions = var.alarm_actions
+  alarm_actions = var.alarm_actions
 }
