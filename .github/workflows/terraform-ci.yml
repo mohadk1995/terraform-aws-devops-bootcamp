@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   terraform-ci:
     runs-on: ubuntu-latest
@@ -16,6 +20,15 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: arn:aws:iam::358487322112:role/GitHubActionsTerraformRole
+          aws-region: ap-south-1
+
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
+
       - name: Show Terraform version
         run: terraform version
 
@@ -23,7 +36,7 @@ jobs:
         run: terraform fmt -check -recursive
 
       - name: Terraform Init
-        run: terraform init       
+        run: terraform init -backend-config=environments/dev/backend.hcl
 
       - name: Terraform Validate
         run: terraform validate
