@@ -42,4 +42,4 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan -var-file=environments/dev/terraform.tfvars -no-color
+        run: terraform plan -var-file=environments/dev/ci.tfvars -no-color
