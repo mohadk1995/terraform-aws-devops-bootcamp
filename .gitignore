@@ -14,3 +14,6 @@ terraform-generated-key.pem
 # Environment files
 *.tfvars
 #.terraform.lock.hcl
+
+# CI uses a non-secret, committed variable file
+!environments/dev/ci.tfvars
