@@ -1,0 +1,42 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "TerraformStateBucket",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetBucketVersioning",
+        "s3:ListBucket"
+      ],
+      "Resource": "arn:aws:s3:::terraform-state-mohammed-2026-ap-south-1",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": [
+            "dev",
+            "dev/*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "TerraformStateObject",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": "arn:aws:s3:::terraform-state-mohammed-2026-ap-south-1/dev/terraform.tfstate"
+    },
+    {
+      "Sid": "TerraformStateLock",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:DeleteItem"
+      ],
+      "Resource": "arn:aws:dynamodb:ap-south-1:358487322112:table/terraform-locks"
+    }
+  ]
+}
