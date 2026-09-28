@@ -370,6 +370,10 @@ module "autoscaling_policy" {
 
   asg_name = local.autoscaling_group
 
+  depends_on = [
+    module.autoscaling_group
+  ]
+
 }
 
 #############################################################

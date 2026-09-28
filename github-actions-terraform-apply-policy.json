@@ -48,6 +48,7 @@
         "ec2:CreateTags",
         "ec2:DescribeAvailabilityZones",
         "ec2:DescribeVpcs",
+        "ec2:DescribeVpcAttribute",
         "ec2:DescribeSubnets",
         "ec2:DescribeRouteTables",
         "ec2:DescribeInternetGateways",
@@ -58,6 +59,7 @@
         "ec2:DescribeLaunchTemplates",
         "ec2:DescribeLaunchTemplateVersions",
         "ec2:DescribeAddresses",
+        "ec2:DescribeAddressesAttribute",
         "ec2:DescribeNetworkInterfaces",
         "ec2:DescribeKeyPairs",
         "ec2:RunInstances",
@@ -167,7 +169,8 @@
         "logs:DeleteLogGroup",
         "logs:PutRetentionPolicy",
         "logs:DescribeLogGroups",
-        "logs:ListTagsForResource"
+        "logs:ListTagsForResource",
+        "logs:TagResource"
       ],
       "Resource": "*"
     },
@@ -178,6 +181,7 @@
         "iam:CreateRole",
         "iam:DeleteRole",
         "iam:GetRole",
+        "iam:TagRole",
         "iam:UpdateAssumeRolePolicy",
         "iam:AttachRolePolicy",
         "iam:DetachRolePolicy",
