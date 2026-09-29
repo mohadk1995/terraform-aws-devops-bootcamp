@@ -31,7 +31,8 @@
         "ec2:DescribeKeyPairs",
         "ec2:DescribeTags",
         "ec2:DescribeInstanceAttribute",
-        "ec2:DescribeVolumes"
+        "ec2:DescribeVolumes",
+        "ec2:DescribeInstanceCreditSpecifications"
       ],
       "Resource": "*"
     },
