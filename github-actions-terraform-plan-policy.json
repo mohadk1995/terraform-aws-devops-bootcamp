@@ -29,7 +29,8 @@
         "ec2:DescribeAddressesAttribute",
         "ec2:DescribeNetworkInterfaces",
         "ec2:DescribeKeyPairs",
-        "ec2:DescribeTags"
+        "ec2:DescribeTags",
+        "ec2:DescribeInstanceAttribute"
       ],
       "Resource": "*"
     },
