@@ -90,7 +90,16 @@
         "ec2:AssociateAddress",
         "ec2:DisassociateAddress",
         "ec2:ImportKeyPair",
-        "ec2:DeleteKeyPair"
+        "ec2:DeleteKeyPair",
+        "ec2:DescribeInstanceAttribute",
+        "ec2:DescribeVolumes",
+        "ec2:CreateVolume",
+        "ec2:DeleteVolume",
+        "ec2:AttachVolume",
+        "ec2:DetachVolume",
+        "ec2:ModifyInstanceAttribute",
+        "ec2:DescribeInstanceCreditSpecifications"
+        
       ],
       "Resource": "*"
     },
@@ -126,7 +135,10 @@
         "elasticloadbalancing:DescribeListeners",
         "elasticloadbalancing:DescribeTargetGroups",
         "elasticloadbalancing:DescribeTargetHealth",
-        "elasticloadbalancing:DescribeTags"
+        "elasticloadbalancing:DescribeTags",
+        "elasticloadbalancing:DescribeLoadBalancerAttributes",
+        "elasticloadbalancing:ModifyTargetGroupAttributes"
+
       ],
       "Resource": "*"
     },
@@ -144,7 +156,9 @@
         "autoscaling:DescribeAutoScalingGroups",
         "autoscaling:DescribeAutoScalingInstances",
         "autoscaling:DescribePolicies",
-        "autoscaling:DescribeTags"
+        "autoscaling:DescribeTags",
+        "autoscaling:CreateOrUpdateTags",
+        "autoscaling:DeleteTags"
       ],
       "Resource": "*"
     },
@@ -159,7 +173,8 @@
         "cloudwatch:DescribeAlarms",
         "cloudwatch:GetDashboard",
         "cloudwatch:ListDashboards",
-        "cloudwatch:ListMetrics"
+        "cloudwatch:ListMetrics",
+        "cloudwatch:ListTagsForResource"
       ],
       "Resource": "*"
     },
@@ -194,7 +209,11 @@
         "iam:GetInstanceProfile",
         "iam:ListAttachedRolePolicies",
         "iam:ListRolePolicies",
-        "iam:PassRole"
+        "iam:PassRole",
+        "iam:ListInstanceProfilesForRole",
+        "iam:ListPolicyVersions",
+        "iam:GetPolicy",
+        "iam:GetPolicyVersion"
       ],
       "Resource": "*"
     }
