@@ -43,9 +43,16 @@
         "elasticloadbalancing:DescribeLoadBalancers",
         "elasticloadbalancing:DescribeListeners",
         "elasticloadbalancing:DescribeListenerAttributes",
+        "elasticloadbalancing:DescribeLoadBalancerAttributes",
+        "elasticloadbalancing:DescribeTargetGroups",
+        "elasticloadbalancing:DescribeTargetGroupAttributes",
+        "elasticloadbalancing:DescribeTargetHealth",
+        "elasticloadbalancing:DescribeListenerAttributes",
         "elasticloadbalancing:DescribeTargetGroups",
         "elasticloadbalancing:DescribeTargetHealth",
-        "elasticloadbalancing:DescribeTags"
+        "elasticloadbalancing:DescribeTags",
+        "elasticloadbalancing:DescribeLoadBalancerAttributes",
+        "elasticloadbalancing:DescribeTargetGroupAttributes"
       ],
       "Resource": "*"
     },
@@ -68,7 +75,8 @@
         "cloudwatch:DescribeAlarms",
         "cloudwatch:GetDashboard",
         "cloudwatch:ListDashboards",
-        "cloudwatch:ListMetrics"
+        "cloudwatch:ListMetrics",
+        "cloudwatch:ListTagsForResource"
       ],
       "Resource": "*"
     },
