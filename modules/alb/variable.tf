@@ -34,10 +34,10 @@ variable "environment" {
   type        = string
 }
 
-variable "vpc_id" {
-  type = string
-}
+variable "target_group_arn" {
 
-variable "target_group_name" {
+  description = "ARN of the target group used by the ALB listener"
+
   type = string
+
 }

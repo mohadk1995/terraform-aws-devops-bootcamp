@@ -18,42 +18,7 @@ resource "aws_lb" "this" {
 
   tags = {
 
-    Name = var.alb_name
-
-    Environment = var.environment
-
-    ManagedBy = "Terraform"
-
-  }
-
-}
-
-#############################################################
-# Target Group
-#############################################################
-
-resource "aws_lb_target_group" "this" {
-
-  name     = var.target_group_name
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = var.vpc_id
-
-  health_check {
-
-    enabled             = true
-    interval            = 30
-    path                = "/"
-    protocol            = "HTTP"
-    timeout             = 5
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-
-  }
-
-  tags = {
-
-    Name        = var.target_group_name
+    Name        = var.alb_name
     Environment = var.environment
     ManagedBy   = "Terraform"
 
@@ -77,7 +42,7 @@ resource "aws_lb_listener" "http" {
 
     type = "forward"
 
-    target_group_arn = aws_lb_target_group.this.arn
+    target_group_arn = var.target_group_arn
 
   }
 

@@ -137,7 +137,14 @@
         "elasticloadbalancing:DescribeTargetHealth",
         "elasticloadbalancing:DescribeTags",
         "elasticloadbalancing:DescribeLoadBalancerAttributes",
-        "elasticloadbalancing:ModifyTargetGroupAttributes"
+        "elasticloadbalancing:ModifyTargetGroupAttributes",
+        "elasticloadbalancing:DescribeTargetHealth",
+        "elasticloadbalancing:DescribeTags",
+        "elasticloadbalancing:AddTags",
+        "elasticloadbalancing:RemoveTags",
+        "elasticloadbalancing:RegisterTargets",
+        "elasticloadbalancing:DeregisterTargets",
+        "elasticloadbalancing:DescribeTargetGroupAttributes"
 
       ],
       "Resource": "*"

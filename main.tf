@@ -278,7 +278,7 @@ module "autoscaling_group" {
 
   subnet_ids = module.network.public_subnet_ids
   target_group_arns = [
-    module.alb.target_group_arn
+    module.target_group.target_group_arn
   ]
 
   ##############################################
@@ -302,21 +302,9 @@ module "autoscaling_group" {
 #############################################################
 
 module "alb" {
-
   source = "./modules/alb"
 
-  ###########################################################
-  # Name
-  ###########################################################
-
-  alb_name          = local.alb_name
-  target_group_name = local.target_group_name
-  vpc_id            = module.network.vpc_id
-
-
-  ###########################################################
-  # Networking
-  ###########################################################
+  alb_name = local.alb_name
 
   subnet_ids = module.network.public_subnet_ids
 
@@ -324,12 +312,9 @@ module "alb" {
     module.security_group.security_group_id
   ]
 
-  ###########################################################
-  # Environment
-  ###########################################################
+  target_group_arn = module.target_group.target_group_arn
 
   environment = var.environment
-
 }
 
 #############################################################
